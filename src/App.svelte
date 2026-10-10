@@ -208,6 +208,7 @@
     --text: #e2e2e2;
     --muted: #999;
     --link: #8cb4f0;
+    --selection: #34425a;
     --danger: #f0776c;
 
     font-family:
@@ -288,7 +289,8 @@
     color: var(--link);
   }
 
-  :global(label) {
+  :global(label),
+  :global(.label) {
     display: block;
     font-size: 13px;
     font-weight: 600;

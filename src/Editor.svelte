@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { IssueDraft } from "./drafts";
   import { githubIssueUrl } from "./github";
+  import MarkdownEditor from "./MarkdownEditor.svelte";
   import { renderMarkdown } from "./markdown";
 
   let {
@@ -61,7 +62,7 @@
     oninput={(event) => onchange("title", event.currentTarget.value)}
   />
   <div class="body-toolbar">
-    <label for="issue-body">Description</label>
+    <span class="label" id="issue-body-label">Description</span>
     <div class="tabs">
       <button
         class:active={!preview}
@@ -78,11 +79,14 @@
       {#if draft.body}<!-- HTML is sanitized with DOMPurify in renderMarkdown. -->
         <!-- eslint-disable-next-line svelte/no-at-html-tags -->
         {@html html}{:else}<p class="muted">Nothing to preview.</p>{/if}
-    </div>{:else}<textarea
-      id="issue-body"
+    </div>{/if}
+  <div hidden={preview}>
+    <MarkdownEditor
       value={draft.body}
-      oninput={(event) => onchange("body", event.currentTarget.value)}
-    ></textarea>{/if}
+      labelledby="issue-body-label"
+      onchange={(value) => onchange("body", value)}
+    />
+  </div>
   <div class="editor-footer">
     <button onclick={() => copy("title")}>Copy title</button><button
       onclick={() => copy("body")}>Copy body</button
@@ -144,7 +148,7 @@
     margin: 20px 0 6px;
   }
 
-  .body-toolbar label {
+  .body-toolbar .label {
     margin: 0;
   }
 
@@ -172,21 +176,10 @@
     border-bottom-color: var(--text);
   }
 
-  textarea,
   .preview {
     min-height: 50vh;
     line-height: 1.6;
     padding: 12px;
-  }
-
-  textarea {
-    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    font-size: 13px;
-    display: block;
-    resize: vertical;
-  }
-
-  .preview {
     border: 1px solid var(--border);
     border-radius: 4px;
     overflow-wrap: anywhere;
