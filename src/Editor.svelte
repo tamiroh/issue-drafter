@@ -2,6 +2,7 @@
   import type { IssueDraft } from "./drafts";
   import { githubIssueUrl } from "./github";
   import { renderMarkdown } from "./markdown";
+
   let {
     draft,
     status,
@@ -13,10 +14,13 @@
     onchange: (field: "title" | "body", value: string) => void;
     onretry: () => void;
   } = $props();
+
   let preview = $state(false);
   let copied = $state("");
+
   const url = $derived(githubIssueUrl(draft));
   const html = $derived(renderMarkdown(draft.body));
+
   async function copy(field: "title" | "body") {
     try {
       await navigator.clipboard.writeText(draft[field]);

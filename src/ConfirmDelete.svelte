@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+
   let {
     title,
     busy,
@@ -11,7 +12,9 @@
     oncancel: () => void;
     onconfirm: () => void;
   } = $props();
+
   let dialog: HTMLDialogElement;
+
   onMount(() => {
     dialog.showModal();
   });

@@ -4,6 +4,7 @@
   import ConfirmDelete from "./ConfirmDelete.svelte";
   import Editor from "./Editor.svelte";
   import { draftStorage, DraftWriter, type IssueDraft } from "./drafts";
+
   let drafts = $state<IssueDraft[]>([]);
   let selected = $state("");
   let creating = $state(false);
@@ -13,10 +14,13 @@
   let statuses = $state<Record<string, string>>({});
   let deleting = $state("");
   let deleteBusy = $state(false);
+
   const writer = new DraftWriter();
+
   // Internal write tokens are not rendered and intentionally do not trigger updates.
   // eslint-disable-next-line svelte/prefer-svelte-reactivity
   const revisions = new Map<string, number>();
+
   const current = $derived(drafts.find((draft) => draft.id === selected));
   const repositories = $derived(
     [...new Set(drafts.map((draft) => draft.repository))].sort(),
@@ -24,10 +28,12 @@
   const unsaved = $derived(
     Object.values(statuses).some((status) => status !== "Saved"),
   );
+
   async function load() {
     loading = true;
     error = "";
     loadFailed = false;
+
     try {
       drafts = (await draftStorage.list()).sort(
         (a, b) => b.updatedAt - a.updatedAt,
@@ -42,19 +48,23 @@
       loading = false;
     }
   }
+
   onMount(() => {
     void load();
   });
+
   function beforeUnload(event: BeforeUnloadEvent) {
     if (unsaved) {
       event.preventDefault();
       event.returnValue = "";
     }
   }
+
   function save(draft: IssueDraft) {
     const revision = (revisions.get(draft.id) ?? 0) + 1;
     revisions.set(draft.id, revision);
     statuses[draft.id] = "Saving…";
+
     void writer
       .save(draft)
       .then(() => {
@@ -65,26 +75,34 @@
           statuses[draft.id] = "Save failed";
       });
   }
+
   function create(draft: IssueDraft) {
     drafts = [draft, ...drafts];
     selected = draft.id;
     creating = false;
+
     save(draft);
   }
+
   function edit(field: "title" | "body", value: string) {
     if (!current) return;
+
     const updated = { ...current, [field]: value, updatedAt: Date.now() };
     drafts = drafts.map((draft) => (draft.id === updated.id ? updated : draft));
+
     save(updated);
   }
+
   async function remove() {
     const id = deleting;
     deleteBusy = true;
     error = "";
+
     try {
       await writer.remove(id);
       revisions.delete(id);
       delete statuses[id];
+
       drafts = drafts.filter((draft) => draft.id !== id);
       if (selected === id) selected = drafts[0]?.id ?? "";
       if (!drafts.length) creating = true;

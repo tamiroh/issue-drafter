@@ -6,10 +6,12 @@
   } from "./github";
   import type { IssueDraft } from "./drafts";
   import { onDestroy } from "svelte";
+
   let {
     oncreate,
     oncancel,
   }: { oncreate: (draft: IssueDraft) => void; oncancel: () => void } = $props();
+
   let repository = $state("");
   let templates = $state<IssueTemplate[]>([]);
   let selected = $state("");
@@ -17,8 +19,11 @@
   let loading = $state(false);
   let message = $state("");
   let error = $state("");
+
   let controller: AbortController | undefined;
+
   onDestroy(() => controller?.abort());
+
   function reset() {
     controller?.abort();
     loading = false;
@@ -28,14 +33,18 @@
     message = "";
     error = "";
   }
+
   async function load() {
     error = "";
+
     try {
       loadedRepo = normalizeRepository(repository);
     } catch (cause) {
       error = (cause as Error).message;
+
       return;
     }
+
     controller?.abort();
     const request = new AbortController();
     controller = request;
@@ -43,6 +52,7 @@
     templates = [];
     selected = "";
     message = "";
+
     try {
       const result = await fetchTemplates(loadedRepo, request.signal);
       if (!request.signal.aborted) {
@@ -59,9 +69,11 @@
       if (!request.signal.aborted) loading = false;
     }
   }
+
   function create() {
     const template = templates.find((item) => item.path === selected);
     const now = Date.now();
+
     oncreate({
       id: crypto.randomUUID(),
       repository: loadedRepo,
