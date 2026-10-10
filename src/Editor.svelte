@@ -119,7 +119,7 @@
 <style>
   .editor-header {
     min-height: 110px;
-    border-bottom: 1px solid #eceef2;
+    border-bottom: 1px solid var(--border);
     padding: 28px 5%;
     display: flex;
     align-items: center;
@@ -145,18 +145,18 @@
     justify-content: space-between;
     gap: 12px;
     font-size: 11px;
-    color: #9299a7;
+    color: var(--muted);
     margin-bottom: 34px;
   }
 
   .editor-meta strong {
-    color: #697484;
+    color: var(--muted);
     font-weight: 500;
     margin-left: 8px;
   }
 
   .editor-meta [role="status"] {
-    color: #72907d;
+    color: var(--success);
   }
 
   .title-input {
@@ -166,7 +166,7 @@
   }
 
   .title-input::placeholder {
-    color: #b0b6c2;
+    color: var(--muted);
   }
 
   .body-toolbar {
@@ -183,8 +183,8 @@
 
   .segmented {
     display: flex;
-    background: #f3f4f7;
-    border: 1px solid #e9ebef;
+    background: var(--sidebar);
+    border: 1px solid var(--border);
     padding: 3px;
     border-radius: 7px;
   }
@@ -194,13 +194,13 @@
     font-size: 12px;
     padding: 6px 16px;
     background: none;
-    color: #9098a7;
+    color: var(--muted);
   }
 
   .segmented button.active {
-    background: #fff;
-    box-shadow: 0 1px 3px #26304f15;
-    color: #465474;
+    background: var(--surface);
+    box-shadow: 0 1px 3px #00000033;
+    color: var(--text);
   }
 
   textarea,
@@ -218,11 +218,11 @@
   }
 
   textarea::placeholder {
-    color: #a1a9b7;
+    color: var(--muted);
   }
 
   .preview {
-    border: 1px solid #dce0e7;
+    border: 1px solid var(--border);
     border-radius: 7px;
     overflow-wrap: anywhere;
   }
@@ -231,7 +231,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 10px;
-    color: #929bab;
+    color: var(--muted);
     margin-top: 12px;
   }
 
@@ -242,7 +242,7 @@
     gap: 18px;
     margin-top: 35px;
     padding-top: 23px;
-    border-top: 1px solid #eceef2;
+    border-top: 1px solid var(--border);
   }
 
   .handoff strong {
@@ -252,7 +252,7 @@
 
   .handoff p {
     font-size: 11px;
-    color: #909aaa;
+    color: var(--muted);
     margin: 5px 0;
   }
 
@@ -268,7 +268,7 @@
 
   .copy-status {
     font-size: 12px;
-    color: #6675a3;
+    color: var(--accent);
     min-height: 20px;
   }
 
@@ -278,7 +278,7 @@
 
   .markdown :global(h2) {
     font-size: 21px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border);
     padding-bottom: 8px;
   }
 
@@ -287,7 +287,7 @@
   }
 
   .markdown :global(pre) {
-    background: #f5f6f8;
+    background: var(--surface);
     padding: 15px;
     border-radius: 6px;
     overflow: auto;
@@ -296,13 +296,13 @@
   .markdown :global(code) {
     font-family: ui-monospace, monospace;
     font-size: 0.9em;
-    background: #f5f6f8;
+    background: var(--surface);
   }
 
   .markdown :global(blockquote) {
-    border-left: 3px solid #d7dce7;
+    border-left: 3px solid var(--border);
     padding-left: 16px;
-    color: #7b8595;
+    color: var(--muted);
     margin-left: 0;
   }
 
@@ -318,12 +318,12 @@
 
   .markdown :global(th),
   .markdown :global(td) {
-    border: 1px solid #dce0e7;
+    border: 1px solid var(--border);
     padding: 7px 12px;
   }
 
   .markdown :global(a) {
-    color: #5968b7;
+    color: var(--accent);
   }
 
   .markdown > :global(:first-child) {

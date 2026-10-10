@@ -44,11 +44,11 @@
 
 <style>
   .confirm-dialog {
-    background: #fff;
+    background: var(--surface);
     padding: 28px;
     border-radius: 12px;
     max-width: 440px;
-    box-shadow: 0 15px 60px #17203333;
+    box-shadow: 0 15px 60px #00000066;
   }
 
   .confirm-dialog h2 {
@@ -57,7 +57,7 @@
   }
 
   .confirm-dialog p {
-    color: #7b8595;
+    color: var(--muted);
     overflow-wrap: anywhere;
   }
 
@@ -69,13 +69,13 @@
   }
 
   .danger {
-    background: #b13b4b;
+    background: #a52f45;
     color: white;
-    border-color: #b13b4b;
+    border-color: #a52f45;
   }
 
   .danger:hover {
-    background: #992c3b;
+    background: #bd3d54;
   }
 
   .confirm-dialog {
@@ -84,6 +84,6 @@
   }
 
   .confirm-dialog::backdrop {
-    background: #17203366;
+    background: #00000099;
   }
 </style>

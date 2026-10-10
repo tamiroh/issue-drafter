@@ -175,14 +175,14 @@
 
   .local-note {
     font-size: 11px;
-    color: #9299a7;
+    color: var(--muted);
     margin-top: 60px;
-    border-top: 1px solid #eceef2;
+    border-top: 1px solid var(--border);
     padding-top: 20px;
   }
 
   .local-note span {
-    color: #819a88;
+    color: var(--success);
     margin-right: 5px;
   }
 

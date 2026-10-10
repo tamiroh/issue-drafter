@@ -213,14 +213,30 @@
 
 <style>
   :global(:root) {
+    color-scheme: dark;
+
+    --background: #101318;
+    --sidebar: #151920;
+    --surface: #1c222c;
+    --surface-hover: #283141;
+    --selected: #2a3354;
+    --border: #364153;
+    --text: #e6eaf2;
+    --muted: #a3aec0;
+    --accent: #a5b4fc;
+    --success: #8fd3a8;
+    --danger: #ff9aa9;
+    --notice-bg: #332c1e;
+    --notice-text: #ebca88;
+
     font-family:
       Inter,
       -apple-system,
       BlinkMacSystemFont,
       "Segoe UI",
       sans-serif;
-    color: #252c37;
-    background: #fff;
+    color: var(--text);
+    background: var(--background);
     font-synthesis: none;
     font-weight: 400;
     font-size: 14px;
@@ -244,10 +260,10 @@
   :global(button),
   :global(.button) {
     cursor: pointer;
-    border: 1px solid #dce0e7;
+    border: 1px solid var(--border);
     border-radius: 7px;
-    background: white;
-    color: #394252;
+    background: var(--surface);
+    color: var(--text);
     padding: 9px 13px;
     font-weight: 550;
     text-decoration: none;
@@ -260,7 +276,7 @@
 
   :global(button:hover),
   :global(.button:hover) {
-    background: #f0f3f8;
+    background: var(--surface-hover);
   }
 
   :global(button:disabled) {
@@ -270,7 +286,7 @@
 
   :global(button:focus-visible),
   :global(a:focus-visible) {
-    outline: 3px solid #9fa9ed;
+    outline: 3px solid var(--accent);
     outline-offset: 3px;
   }
 
@@ -278,9 +294,9 @@
   :global(textarea),
   :global(select) {
     width: 100%;
-    border: 1px solid #dce0e7;
+    border: 1px solid var(--border);
     border-radius: 7px;
-    background: #fff;
+    background: var(--surface);
     color: inherit;
     padding: 12px;
     outline: none;
@@ -289,8 +305,18 @@
   :global(input:focus),
   :global(textarea:focus),
   :global(select:focus) {
-    border-color: #6675c9;
-    box-shadow: 0 0 0 3px #6675c918;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px #a5b4fc26;
+  }
+
+  :global(input::placeholder),
+  :global(textarea::placeholder) {
+    color: var(--muted);
+    opacity: 1;
+  }
+
+  :global(a) {
+    color: var(--accent);
   }
 
   :global(label) {
@@ -318,8 +344,8 @@
   }
 
   .sidebar {
-    background: #f6f7f9;
-    border-right: 1px solid #e5e7ec;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
     padding: 32px 18px 20px;
     display: flex;
     flex-direction: column;
@@ -330,7 +356,7 @@
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    color: #252c37;
+    color: var(--text);
     font-size: 20px;
     letter-spacing: -0.6px;
     font-weight: 700;
@@ -339,20 +365,20 @@
 
   .brand-icon {
     font-size: 28px;
-    color: #6675c9;
+    color: var(--accent);
   }
 
   .brand-dot {
-    color: #6675c9;
+    color: var(--accent);
     margin-left: -7px;
   }
 
   .new-draft {
     width: 100%;
     margin: 32px 0;
-    color: #5261b0;
-    border-color: #d6dbef;
-    box-shadow: 0 2px 3px #27326105;
+    color: var(--accent);
+    border-color: var(--border);
+    box-shadow: 0 2px 3px #0000001a;
   }
 
   .new-draft span {
@@ -363,7 +389,7 @@
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
-    color: #9299a7;
+    color: var(--muted);
     font-size: 10px;
     letter-spacing: 1.4px;
     font-weight: 650;
@@ -382,7 +408,7 @@
     font-weight: 600;
     overflow-wrap: anywhere;
     padding: 0 10px;
-    color: #657080;
+    color: var(--muted);
     display: flex;
     gap: 7px;
     line-height: 1.6;
@@ -396,7 +422,7 @@
   }
 
   .draft-row.selected {
-    background: #e9ecf7;
+    background: var(--selected);
   }
 
   .draft-select {
@@ -421,12 +447,12 @@
 
   .draft-select small {
     font-size: 11px;
-    color: #8790a1;
+    color: var(--muted);
     font-weight: 400;
   }
 
   .selected .draft-select {
-    color: #4d5aaa;
+    color: var(--accent);
   }
 
   .delete-draft {
@@ -434,11 +460,11 @@
     border: 0;
     padding: 6px 10px;
     font-size: 20px;
-    color: #8892a1;
+    color: var(--muted);
   }
 
   .empty-list {
-    color: #9299a7;
+    color: var(--muted);
     font-size: 12px;
     padding: 12px 10px;
   }
@@ -447,13 +473,13 @@
     margin-top: auto;
     padding: 50px 10px 0;
     font-size: 11px;
-    color: #6f7b89;
+    color: var(--muted);
   }
 
   .sidebar-bottom p {
     margin: 5px 0 0 13px;
     font-size: 10px;
-    color: #9299a7;
+    color: var(--muted);
   }
 
   .local-dot {
@@ -461,7 +487,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #7b9e89;
+    background: var(--success);
     margin-right: 5px;
   }
 
@@ -473,39 +499,39 @@
     font-size: 10px;
     font-weight: 650;
     letter-spacing: 1.6px;
-    color: #949bab;
+    color: var(--muted);
   }
 
   :global(.primary) {
-    background: #5968b7;
+    background: #5263ba;
     color: #fff;
-    border-color: #5968b7;
+    border-color: #5263ba;
   }
 
   :global(.primary:hover) {
-    background: #4a59a4;
+    background: #6172cc;
   }
 
   :global(.muted) {
-    color: #8c95a3;
+    color: var(--muted);
   }
 
   :global(.text-button) {
     background: none;
     border: 0;
-    color: #6977ac;
+    color: var(--accent);
     padding: 10px 0;
     font-size: 12px;
   }
 
   :global(.error) {
-    color: #b13b4b !important;
+    color: var(--danger) !important;
   }
 
   :global(.notice),
   :global(.global-error) {
-    background: #faf5e9;
-    color: #8c6b34;
+    background: var(--notice-bg);
+    color: var(--notice-text);
     border-radius: 6px;
     padding: 12px 15px;
     font-size: 12px;
@@ -519,7 +545,7 @@
   .empty-state {
     text-align: center;
     padding: 100px 25px;
-    color: #7b8595;
+    color: var(--muted);
   }
 
   @media (min-width: 1500px) {
@@ -549,7 +575,7 @@
 
     .sidebar {
       border-right: 0;
-      border-bottom: 1px solid #e5e7ec;
+      border-bottom: 1px solid var(--border);
       padding: 18px;
     }
 
