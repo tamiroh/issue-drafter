@@ -132,14 +132,14 @@
 </section>
 
 <style>
+  .creation {
+    max-width: 520px;
+  }
+
   .creation h1 {
     font-size: 16px;
     font-weight: 600;
     margin: 0 0 20px;
-  }
-
-  .creation > :global(*) {
-    max-width: 520px;
   }
 
   .repository-input {

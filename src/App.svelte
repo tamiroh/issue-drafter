@@ -393,6 +393,7 @@
 
   main > :global(*) {
     max-width: 820px;
+    margin-inline: auto;
   }
 
   :global(.primary) {
