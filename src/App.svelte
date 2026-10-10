@@ -300,13 +300,15 @@
   .app-shell {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
-    min-height: 100dvh;
+    grid-template-rows: minmax(0, 1fr);
+    height: 100dvh;
   }
 
   .sidebar {
     background: var(--inset);
     border-right: 1px solid var(--border);
     padding: 16px 12px;
+    overflow-y: auto;
   }
 
   .brand {
@@ -391,9 +393,13 @@
   main {
     min-width: 0;
     padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
   }
 
   main > :global(*) {
+    width: 100%;
     max-width: 820px;
     margin-inline: auto;
   }
@@ -465,6 +471,11 @@
   @media (max-width: 520px) {
     .app-shell {
       display: block;
+      height: auto;
+    }
+
+    main {
+      overflow-y: visible;
     }
 
     .sidebar {

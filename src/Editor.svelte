@@ -80,7 +80,7 @@
         <!-- eslint-disable-next-line svelte/no-at-html-tags -->
         {@html html}{:else}<p class="muted">Nothing to preview.</p>{/if}
     </div>{/if}
-  <div hidden={preview}>
+  <div class="source" hidden={preview}>
     <MarkdownEditor
       value={draft.body}
       labelledby="issue-body-label"
@@ -176,8 +176,20 @@
     border-bottom-color: var(--text);
   }
 
+  .editor-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .source,
   .preview {
-    min-height: 50vh;
+    flex: 1 1 0;
+    min-height: 240px;
+  }
+
+  .preview {
+    overflow-y: auto;
     line-height: 1.6;
     padding: 12px;
     border: 1px solid var(--border);
@@ -262,6 +274,12 @@
     .editor-header,
     .editor-footer {
       flex-wrap: wrap;
+    }
+
+    .source,
+    .preview {
+      flex: none;
+      height: 60vh;
     }
   }
 </style>

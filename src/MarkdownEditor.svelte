@@ -13,6 +13,7 @@
         border: "1px solid var(--border)",
         borderRadius: "4px",
         fontSize: "13px",
+        height: "100%",
       },
       "&.cm-focused": {
         outline: "2px solid var(--link)",
@@ -21,9 +22,9 @@
       ".cm-scroller": {
         fontFamily: "ui-monospace, Menlo, Consolas, monospace",
         lineHeight: "1.6",
+        overflow: "auto",
       },
       ".cm-content": {
-        minHeight: "50vh",
         padding: "12px",
         caretColor: "var(--text)",
       },
@@ -125,3 +126,9 @@
 </script>
 
 <div use:mount></div>
+
+<style>
+  div {
+    height: 100%;
+  }
+</style>
