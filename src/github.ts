@@ -45,7 +45,7 @@ export function parseTemplate(source: string, path: string): IssueTemplate {
     name: field("name") || path.split("/").pop() || path,
     about: field("about"),
     title: field("title"),
-    body: match ? text.slice(match[0].length) : text,
+    body: (match ? text.slice(match[0].length) : text).replace(/^\n+/, ""),
   };
 }
 

@@ -40,7 +40,7 @@ describe("repository and handoff", () => {
 });
 
 describe("Markdown templates", () => {
-  it("parses YAML quotes, multiline descriptions and CRLF, removing front matter only", () => {
+  it("parses YAML quotes, multiline descriptions and CRLF, removing front matter and leading blank lines", () => {
     const result = parseTemplate(
       '---\r\nname: "Bug: report"\r\nabout: >-\r\n  First line\r\n  second line\r\ntitle: "[Bug] "\r\n---\r\n\r\n## Details\r\n---\r\n',
       "bug.md",
@@ -50,7 +50,7 @@ describe("Markdown templates", () => {
       name: "Bug: report",
       about: "First line second line",
       title: "[Bug] ",
-      body: "\n## Details\n---\n",
+      body: "## Details\n---\n",
     });
   });
 
