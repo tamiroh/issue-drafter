@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import NewDraft from './NewDraft.svelte';
-  import ConfirmDelete from './ConfirmDelete.svelte';
-  import Editor from './Editor.svelte';
-  import { draftStorage, DraftWriter, type IssueDraft } from './drafts';
+  import { onMount } from "svelte";
+  import NewDraft from "./NewDraft.svelte";
+  import ConfirmDelete from "./ConfirmDelete.svelte";
+  import Editor from "./Editor.svelte";
+  import { draftStorage, DraftWriter, type IssueDraft } from "./drafts";
   let drafts = $state<IssueDraft[]>([]);
-  let selected = $state('');
+  let selected = $state("");
   let creating = $state(false);
   let loading = $state(true);
   let loadFailed = $state(false);
-  let error = $state('');
+  let error = $state("");
   let statuses = $state<Record<string, string>>({});
-  let deleting = $state('');
+  let deleting = $state("");
   let deleteBusy = $state(false);
   const writer = new DraftWriter();
   // Internal write tokens are not rendered and intentionally do not trigger updates.
@@ -22,22 +22,22 @@
     [...new Set(drafts.map((draft) => draft.repository))].sort(),
   );
   const unsaved = $derived(
-    Object.values(statuses).some((status) => status !== 'Saved'),
+    Object.values(statuses).some((status) => status !== "Saved"),
   );
   async function load() {
     loading = true;
-    error = '';
+    error = "";
     loadFailed = false;
     try {
       drafts = (await draftStorage.list()).sort(
         (a, b) => b.updatedAt - a.updatedAt,
       );
-      selected = drafts[0]?.id ?? '';
+      selected = drafts[0]?.id ?? "";
       creating = !drafts.length;
     } catch {
       loadFailed = true;
       error =
-        'Could not open browser storage. Check browser permissions or available space, then retry.';
+        "Could not open browser storage. Check browser permissions or available space, then retry.";
     } finally {
       loading = false;
     }
@@ -48,21 +48,21 @@
   function beforeUnload(event: BeforeUnloadEvent) {
     if (unsaved) {
       event.preventDefault();
-      event.returnValue = '';
+      event.returnValue = "";
     }
   }
   function save(draft: IssueDraft) {
     const revision = (revisions.get(draft.id) ?? 0) + 1;
     revisions.set(draft.id, revision);
-    statuses[draft.id] = 'Saving…';
+    statuses[draft.id] = "Saving…";
     void writer
       .save(draft)
       .then(() => {
-        if (revisions.get(draft.id) === revision) statuses[draft.id] = 'Saved';
+        if (revisions.get(draft.id) === revision) statuses[draft.id] = "Saved";
       })
       .catch(() => {
         if (revisions.get(draft.id) === revision)
-          statuses[draft.id] = 'Save failed';
+          statuses[draft.id] = "Save failed";
       });
   }
   function create(draft: IssueDraft) {
@@ -71,7 +71,7 @@
     creating = false;
     save(draft);
   }
-  function edit(field: 'title' | 'body', value: string) {
+  function edit(field: "title" | "body", value: string) {
     if (!current) return;
     const updated = { ...current, [field]: value, updatedAt: Date.now() };
     drafts = drafts.map((draft) => (draft.id === updated.id ? updated : draft));
@@ -80,17 +80,17 @@
   async function remove() {
     const id = deleting;
     deleteBusy = true;
-    error = '';
+    error = "";
     try {
       await writer.remove(id);
       revisions.delete(id);
       delete statuses[id];
       drafts = drafts.filter((draft) => draft.id !== id);
-      if (selected === id) selected = drafts[0]?.id ?? '';
+      if (selected === id) selected = drafts[0]?.id ?? "";
       if (!drafts.length) creating = true;
-      deleting = '';
+      deleting = "";
     } catch {
-      error = 'Could not delete this draft. Please retry.';
+      error = "Could not delete this draft. Please retry.";
     } finally {
       deleteBusy = false;
     }
@@ -124,24 +124,24 @@
               <button
                 class="draft-select"
                 aria-current={selected === draft.id && !creating
-                  ? 'page'
+                  ? "page"
                   : undefined}
                 onclick={() => {
                   selected = draft.id;
                   creating = false;
                 }}
-                ><span>{draft.title || 'Untitled draft'}</span><small
-                  >{statuses[draft.id] === 'Save failed'
-                    ? 'Not saved · Retry in editor'
+                ><span>{draft.title || "Untitled draft"}</span><small
+                  >{statuses[draft.id] === "Save failed"
+                    ? "Not saved · Retry in editor"
                     : new Date(draft.updatedAt).toLocaleDateString(undefined, {
-                        month: 'short',
-                        day: 'numeric',
+                        month: "short",
+                        day: "numeric",
                       })}</small
                 ></button
               >
               <button
                 class="delete-draft"
-                aria-label={`Delete ${draft.title || 'Untitled draft'}`}
+                aria-label={`Delete ${draft.title || "Untitled draft"}`}
                 onclick={() => (deleting = draft.id)}>×</button
               >
             </div>
@@ -172,7 +172,7 @@
         oncancel={() => (creating = false)}
       />{:else if current}{#key current.id}<Editor
           draft={current}
-          status={statuses[current.id] ?? 'Saved'}
+          status={statuses[current.id] ?? "Saved"}
           onchange={edit}
           onretry={() => current && save(current)}
         />{/key}{:else}<div class="empty-state">
@@ -186,9 +186,9 @@
 </div>
 {#if deleting}
   <ConfirmDelete
-    title={drafts.find((draft) => draft.id === deleting)?.title ?? ''}
+    title={drafts.find((draft) => draft.id === deleting)?.title ?? ""}
     busy={deleteBusy}
-    oncancel={() => (deleting = '')}
+    oncancel={() => (deleting = "")}
     onconfirm={remove}
   />
 {/if}

@@ -12,12 +12,12 @@ let database: Promise<IDBDatabase> | undefined;
 function openDatabase(): Promise<IDBDatabase> {
   if (!database) {
     database = new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open('issue-drafter', 1);
+      const request = indexedDB.open("issue-drafter", 1);
       request.onupgradeneeded = () =>
-        request.result.createObjectStore('drafts', { keyPath: 'id' });
+        request.result.createObjectStore("drafts", { keyPath: "id" });
       request.onerror = () => reject(request.error);
       request.onblocked = () =>
-        reject(new Error('Close other issue-drafter tabs and reload.'));
+        reject(new Error("Close other issue-drafter tabs and reload."));
       request.onsuccess = () => {
         const db = request.result;
         db.onversionchange = () => {
@@ -40,22 +40,22 @@ async function transaction<T>(
 ): Promise<T> {
   const db = await openDatabase();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('drafts', mode);
-    const request = operation(tx.objectStore('drafts'));
+    const tx = db.transaction("drafts", mode);
+    const request = operation(tx.objectStore("drafts"));
     tx.oncomplete = () => resolve(request.result);
     tx.onabort = () =>
-      reject(tx.error ?? new Error('Storage transaction was aborted.'));
+      reject(tx.error ?? new Error("Storage transaction was aborted."));
     tx.onerror = () => reject(tx.error ?? request.error);
   });
 }
 export const draftStorage = {
   list: (): Promise<IssueDraft[]> =>
-    transaction('readonly', (store) => store.getAll()),
+    transaction("readonly", (store) => store.getAll()),
   save: async (draft: IssueDraft): Promise<void> => {
-    await transaction('readwrite', (store) => store.put(draft));
+    await transaction("readwrite", (store) => store.put(draft));
   },
   remove: async (id: string): Promise<void> => {
-    await transaction('readwrite', (store) => store.delete(id));
+    await transaction("readwrite", (store) => store.delete(id));
   },
 };
 
@@ -65,7 +65,7 @@ export class DraftWriter {
   constructor(
     private storage: Pick<
       typeof draftStorage,
-      'save' | 'remove'
+      "save" | "remove"
     > = draftStorage,
   ) {}
   private enqueue(action: () => Promise<void>): Promise<void> {

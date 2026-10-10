@@ -3,33 +3,33 @@
     fetchTemplates,
     normalizeRepository,
     type IssueTemplate,
-  } from './github';
-  import type { IssueDraft } from './drafts';
-  import { onDestroy } from 'svelte';
+  } from "./github";
+  import type { IssueDraft } from "./drafts";
+  import { onDestroy } from "svelte";
   let {
     oncreate,
     oncancel,
   }: { oncreate: (draft: IssueDraft) => void; oncancel: () => void } = $props();
-  let repository = $state('');
+  let repository = $state("");
   let templates = $state<IssueTemplate[]>([]);
-  let selected = $state('');
-  let loadedRepo = $state('');
+  let selected = $state("");
+  let loadedRepo = $state("");
   let loading = $state(false);
-  let message = $state('');
-  let error = $state('');
+  let message = $state("");
+  let error = $state("");
   let controller: AbortController | undefined;
   onDestroy(() => controller?.abort());
   function reset() {
     controller?.abort();
     loading = false;
-    loadedRepo = '';
+    loadedRepo = "";
     templates = [];
-    selected = '';
-    message = '';
-    error = '';
+    selected = "";
+    message = "";
+    error = "";
   }
   async function load() {
-    error = '';
+    error = "";
     try {
       loadedRepo = normalizeRepository(repository);
     } catch (cause) {
@@ -41,8 +41,8 @@
     controller = request;
     loading = true;
     templates = [];
-    selected = '';
-    message = '';
+    selected = "";
+    message = "";
     try {
       const result = await fetchTemplates(loadedRepo, request.signal);
       if (!request.signal.aborted) {
@@ -54,7 +54,7 @@
         message =
           cause instanceof Error
             ? cause.message
-            : 'Could not load templates. You can continue without one.';
+            : "Could not load templates. You can continue without one.";
     } finally {
       if (!request.signal.aborted) loading = false;
     }
@@ -66,8 +66,8 @@
       id: crypto.randomUUID(),
       repository: loadedRepo,
       template: template?.name ?? null,
-      title: template?.title ?? '',
-      body: template?.body ?? '',
+      title: template?.title ?? "",
+      body: template?.body ?? "",
       createdAt: now,
       updatedAt: now,
     });
@@ -96,7 +96,7 @@
         autocomplete="off"
         required
       /><button class="primary" disabled={loading}
-        >{loading ? 'Loading…' : 'Find templates'}</button
+        >{loading ? "Loading…" : "Find templates"}</button
       >
     </div>
   </form>
@@ -115,7 +115,7 @@
         </p>{/if}
       {#if message}<p class="notice" role="status">{message}</p>{/if}
       <button class="primary" onclick={create}
-        >Create draft{loading ? ' without a template' : ''}</button
+        >Create draft{loading ? " without a template" : ""}</button
       >
     </div>
   {/if}

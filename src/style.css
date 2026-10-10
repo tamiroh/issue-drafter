@@ -3,7 +3,7 @@
     Inter,
     -apple-system,
     BlinkMacSystemFont,
-    'Segoe UI',
+    "Segoe UI",
     sans-serif;
   color: #252c37;
   background: #fff;
@@ -266,7 +266,7 @@ main {
   font-weight: 500;
   margin-left: 8px;
 }
-.editor-meta [role='status'] {
+.editor-meta [role="status"] {
   color: #72907d;
 }
 .title-input {

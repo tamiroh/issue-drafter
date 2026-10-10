@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { IssueDraft } from './drafts';
-  import { githubIssueUrl } from './github';
-  import { renderMarkdown } from './markdown';
+  import type { IssueDraft } from "./drafts";
+  import { githubIssueUrl } from "./github";
+  import { renderMarkdown } from "./markdown";
   let {
     draft,
     status,
@@ -10,20 +10,20 @@
   }: {
     draft: IssueDraft;
     status: string;
-    onchange: (field: 'title' | 'body', value: string) => void;
+    onchange: (field: "title" | "body", value: string) => void;
     onretry: () => void;
   } = $props();
   let preview = $state(false);
-  let copied = $state('');
+  let copied = $state("");
   const url = $derived(githubIssueUrl(draft));
   const html = $derived(renderMarkdown(draft.body));
-  async function copy(field: 'title' | 'body') {
+  async function copy(field: "title" | "body") {
     try {
       await navigator.clipboard.writeText(draft[field]);
-      copied = `${field === 'title' ? 'Title' : 'Body'} copied.`;
+      copied = `${field === "title" ? "Title" : "Body"} copied.`;
     } catch {
       copied =
-        'Clipboard unavailable. Select and copy the text from the editor.';
+        "Clipboard unavailable. Select and copy the text from the editor.";
     }
   }
 </script>
@@ -39,15 +39,15 @@
 </header>
 <div class="editor-content">
   <div class="editor-meta">
-    <span>Template <strong>{draft.template ?? 'No template'}</strong></span
-    ><span class:error={status === 'Save failed'} role="status"
-      >{status === 'Saved'
-        ? '● Saved locally'
-        : status}{#if status === 'Save failed'}
+    <span>Template <strong>{draft.template ?? "No template"}</strong></span
+    ><span class:error={status === "Save failed"} role="status"
+      >{status === "Saved"
+        ? "● Saved locally"
+        : status}{#if status === "Save failed"}
         <button class="text-button" onclick={onretry}>Retry</button>{/if}</span
     >
   </div>
-  {#if status === 'Save failed'}<p class="error" role="alert">
+  {#if status === "Save failed"}<p class="error" role="alert">
       Your latest changes are still in memory. Retry saving before closing this
       page.
     </p>{/if}
@@ -57,7 +57,7 @@
     class="title-input"
     placeholder="Give your issue a clear title"
     value={draft.title}
-    oninput={(event) => onchange('title', event.currentTarget.value)}
+    oninput={(event) => onchange("title", event.currentTarget.value)}
   />
   <div class="body-toolbar">
     <label for="issue-body">Description</label>
@@ -83,7 +83,7 @@
       id="issue-body"
       placeholder="Describe the problem, share some context, or propose an idea…"
       value={draft.body}
-      oninput={(event) => onchange('body', event.currentTarget.value)}
+      oninput={(event) => onchange("body", event.currentTarget.value)}
     ></textarea>{/if}
   <div class="editor-footer">
     <span>Markdown supported · Saved automatically</span><span
@@ -96,8 +96,8 @@
       <p>Review and submit on GitHub. Your draft stays here.</p>
     </div>
     <div class="copy-actions">
-      <button onclick={() => copy('title')}>Copy title</button><button
-        onclick={() => copy('body')}>Copy body</button
+      <button onclick={() => copy("title")}>Copy title</button><button
+        onclick={() => copy("body")}>Copy body</button
       >
     </div>
   </div>
