@@ -136,3 +136,78 @@
     <span aria-hidden="true">◉</span> Stored in this browser. No account required.
   </div>
 </section>
+
+<style>
+  .creation {
+    max-width: 720px;
+    margin: 90px auto;
+    padding: 32px;
+  }
+
+  .creation h1 {
+    margin: 18px 0 12px;
+  }
+
+  .creation form {
+    margin-top: 40px;
+  }
+
+  .repository-input {
+    display: flex;
+    gap: 10px;
+  }
+
+  .repository-input button {
+    white-space: nowrap;
+  }
+
+  .template-picker {
+    margin-top: 26px;
+  }
+
+  .template-picker > .primary {
+    margin-top: 18px;
+  }
+
+  .creation > .text-button {
+    margin-top: 18px;
+  }
+
+  .local-note {
+    font-size: 11px;
+    color: #9299a7;
+    margin-top: 60px;
+    border-top: 1px solid #eceef2;
+    padding-top: 20px;
+  }
+
+  .local-note span {
+    color: #819a88;
+    margin-right: 5px;
+  }
+
+  @media (max-width: 760px) {
+    .repository-input {
+      flex-direction: column;
+    }
+
+    .creation {
+      margin: 30px auto;
+      padding: 24px;
+    }
+
+    .creation h1 {
+      font-size: 27px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .creation {
+      margin: 10px auto;
+    }
+
+    .local-note {
+      margin-top: 30px;
+    }
+  }
+</style>

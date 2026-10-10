@@ -115,3 +115,259 @@
     </p>{/if}
   <p class="copy-status" role="status">{copied}</p>
 </div>
+
+<style>
+  .editor-header {
+    min-height: 110px;
+    border-bottom: 1px solid #eceef2;
+    padding: 28px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .repo-title {
+    font-size: 17px;
+    margin-top: 8px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .editor-content {
+    max-width: 1080px;
+    margin: auto;
+    padding: 28px 5%;
+  }
+
+  .editor-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    color: #9299a7;
+    margin-bottom: 34px;
+  }
+
+  .editor-meta strong {
+    color: #697484;
+    font-weight: 500;
+    margin-left: 8px;
+  }
+
+  .editor-meta [role="status"] {
+    color: #72907d;
+  }
+
+  .title-input {
+    font-size: 21px;
+    letter-spacing: -0.4px;
+    padding: 14px 16px;
+  }
+
+  .title-input::placeholder {
+    color: #b0b6c2;
+  }
+
+  .body-toolbar {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .body-toolbar label {
+    margin: 0;
+  }
+
+  .segmented {
+    display: flex;
+    background: #f3f4f7;
+    border: 1px solid #e9ebef;
+    padding: 3px;
+    border-radius: 7px;
+  }
+
+  .segmented button {
+    border: 0;
+    font-size: 12px;
+    padding: 6px 16px;
+    background: none;
+    color: #9098a7;
+  }
+
+  .segmented button.active {
+    background: #fff;
+    box-shadow: 0 1px 3px #26304f15;
+    color: #465474;
+  }
+
+  textarea,
+  .preview {
+    min-height: 390px;
+    line-height: 1.8;
+    padding: 20px;
+    resize: vertical;
+  }
+
+  textarea {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 13px;
+    display: block;
+  }
+
+  textarea::placeholder {
+    color: #a1a9b7;
+  }
+
+  .preview {
+    border: 1px solid #dce0e7;
+    border-radius: 7px;
+    overflow-wrap: anywhere;
+  }
+
+  .editor-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #929bab;
+    margin-top: 12px;
+  }
+
+  .handoff {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-top: 35px;
+    padding-top: 23px;
+    border-top: 1px solid #eceef2;
+  }
+
+  .handoff strong {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .handoff p {
+    font-size: 11px;
+    color: #909aaa;
+    margin: 5px 0;
+  }
+
+  .copy-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .copy-actions button {
+    font-size: 11px;
+  }
+
+  .copy-status {
+    font-size: 12px;
+    color: #6675a3;
+    min-height: 20px;
+  }
+
+  .markdown :global(h1) {
+    font-size: 26px;
+  }
+
+  .markdown :global(h2) {
+    font-size: 21px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+
+  .markdown :global(h3) {
+    font-size: 17px;
+  }
+
+  .markdown :global(pre) {
+    background: #f5f6f8;
+    padding: 15px;
+    border-radius: 6px;
+    overflow: auto;
+  }
+
+  .markdown :global(code) {
+    font-family: ui-monospace, monospace;
+    font-size: 0.9em;
+    background: #f5f6f8;
+  }
+
+  .markdown :global(blockquote) {
+    border-left: 3px solid #d7dce7;
+    padding-left: 16px;
+    color: #7b8595;
+    margin-left: 0;
+  }
+
+  .markdown :global(img) {
+    max-width: 100%;
+  }
+
+  .markdown :global(table) {
+    display: block;
+    overflow: auto;
+    border-collapse: collapse;
+  }
+
+  .markdown :global(th),
+  .markdown :global(td) {
+    border: 1px solid #dce0e7;
+    padding: 7px 12px;
+  }
+
+  .markdown :global(a) {
+    color: #5968b7;
+  }
+
+  .markdown > :global(:first-child) {
+    margin-top: 0;
+  }
+
+  @media (min-width: 1500px) {
+    .editor-content {
+      padding-top: 40px;
+    }
+
+    textarea,
+    .preview {
+      min-height: 470px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .editor-header {
+      padding: 22px;
+      flex-wrap: wrap;
+    }
+
+    .editor-content {
+      padding: 22px;
+    }
+
+    .handoff {
+      flex-wrap: wrap;
+    }
+
+    .editor-meta {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .editor-header {
+      min-height: auto;
+    }
+
+    .editor-footer {
+      gap: 10px;
+      font-size: 9px;
+    }
+  }
+</style>
