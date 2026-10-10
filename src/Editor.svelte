@@ -33,19 +33,22 @@
 </script>
 
 <header class="editor-header">
-  <div class="repo-title">{draft.repository}</div>
+  <div class="heading">
+    <h1>{draft.repository}</h1>
+    <span class="muted">{draft.template ?? "No template"}</span>
+  </div>
+  <span
+    class="save-status muted"
+    class:error={status === "Save failed"}
+    role="status"
+    >{status}{#if status === "Save failed"}
+      <button class="text-button" onclick={onretry}>Retry</button>{/if}</span
+  >
   <a class="button primary" href={url} target="_blank" rel="noopener noreferrer"
-    >Open on GitHub <span aria-hidden="true">↗</span></a
+    >Open on GitHub</a
   >
 </header>
 <div class="editor-content">
-  <div class="editor-meta">
-    <span>Template <strong>{draft.template ?? "No template"}</strong></span
-    ><span class:error={status === "Save failed"} role="status"
-      >{status === "Saved" ? "Saved" : status}{#if status === "Save failed"}
-        <button class="text-button" onclick={onretry}>Retry</button>{/if}</span
-    >
-  </div>
   {#if status === "Save failed"}<p class="error" role="alert">
       Your latest changes are still in memory. Retry saving before closing this
       page.
@@ -59,7 +62,7 @@
   />
   <div class="body-toolbar">
     <label for="issue-body">Description</label>
-    <div class="segmented">
+    <div class="tabs">
       <button
         class:active={!preview}
         aria-pressed={!preview}
@@ -81,16 +84,11 @@
       oninput={(event) => onchange("body", event.currentTarget.value)}
     ></textarea>{/if}
   <div class="editor-footer">
-    <span>Markdown</span><span
+    <button onclick={() => copy("title")}>Copy title</button><button
+      onclick={() => copy("body")}>Copy body</button
+    ><span role="status">{copied}</span><span class="count"
       >{draft.body.length.toLocaleString()} characters</span
     >
-  </div>
-  <div class="handoff">
-    <div class="copy-actions">
-      <button onclick={() => copy("title")}>Copy title</button><button
-        onclick={() => copy("body")}>Copy body</button
-      >
-    </div>
   </div>
   {#if url.length > 8000}<p class="notice">
       This draft produces a long URL that GitHub or your browser may reject.
@@ -100,171 +98,137 @@
         rel="noopener noreferrer">open a blank issue</a
       > and paste them.
     </p>{/if}
-  <p class="copy-status" role="status">{copied}</p>
 </div>
 
 <style>
   .editor-header {
-    min-height: 110px;
-    border-bottom: 1px solid var(--border);
-    padding: 28px 5%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
+    margin-bottom: 24px;
   }
 
-  .repo-title {
-    font-size: 17px;
+  .heading {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 10px;
+  }
+
+  .heading h1 {
+    font-size: 16px;
     font-weight: 600;
+    margin: 0;
     overflow-wrap: anywhere;
   }
 
-  .editor-content {
-    max-width: 1080px;
-    margin: auto;
-    padding: 28px 5%;
+  .heading span,
+  .save-status {
+    font-size: 12px;
   }
 
-  .editor-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 34px;
-  }
-
-  .editor-meta strong {
-    color: var(--muted);
-    font-weight: 500;
-    margin-left: 8px;
-  }
-
-  .editor-meta [role="status"] {
-    color: var(--success);
+  .save-status {
+    white-space: nowrap;
   }
 
   .title-input {
-    font-size: 21px;
-    letter-spacing: -0.4px;
-    padding: 14px 16px;
-  }
-
-  .title-input::placeholder {
-    color: var(--muted);
+    font-size: 16px;
   }
 
   .body-toolbar {
-    margin-top: 28px;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin: 20px 0 6px;
   }
 
   .body-toolbar label {
     margin: 0;
   }
 
-  .segmented {
+  .tabs {
     display: flex;
-    background: var(--sidebar);
-    border: 1px solid var(--border);
-    padding: 3px;
-    border-radius: 7px;
+    gap: 14px;
   }
 
-  .segmented button {
+  .tabs button {
     border: 0;
-    font-size: 12px;
-    padding: 6px 16px;
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
     background: none;
+    padding: 0 0 1px;
+    font-size: 13px;
     color: var(--muted);
   }
 
-  .segmented button.active {
-    background: var(--surface);
-    box-shadow: 0 1px 3px #00000033;
+  .tabs button:hover,
+  .tabs button.active {
     color: var(--text);
+  }
+
+  .tabs button.active {
+    border-bottom-color: var(--text);
   }
 
   textarea,
   .preview {
-    min-height: 390px;
-    line-height: 1.8;
-    padding: 20px;
-    resize: vertical;
+    min-height: 50vh;
+    line-height: 1.6;
+    padding: 12px;
   }
 
   textarea {
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 13px;
     display: block;
-  }
-
-  textarea::placeholder {
-    color: var(--muted);
+    resize: vertical;
   }
 
   .preview {
     border: 1px solid var(--border);
-    border-radius: 7px;
+    border-radius: 4px;
     overflow-wrap: anywhere;
   }
 
   .editor-footer {
     display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 12px;
-  }
-
-  .handoff {
-    display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 18px;
-    margin-top: 35px;
-    padding-top: 23px;
-    border-top: 1px solid var(--border);
-  }
-
-  .copy-actions {
-    display: flex;
     gap: 8px;
-    flex-shrink: 0;
-  }
-
-  .copy-actions button {
-    font-size: 11px;
-  }
-
-  .copy-status {
+    margin-top: 10px;
     font-size: 12px;
-    color: var(--accent);
-    min-height: 20px;
+    color: var(--muted);
+  }
+
+  .editor-footer button {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .count {
+    margin-left: auto;
+    white-space: nowrap;
   }
 
   .markdown :global(h1) {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   .markdown :global(h2) {
-    font-size: 21px;
+    font-size: 20px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
 
   .markdown :global(h3) {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .markdown :global(pre) {
     background: var(--surface);
-    padding: 15px;
-    border-radius: 6px;
+    padding: 12px;
+    border-radius: 4px;
     overflow: auto;
   }
 
@@ -276,7 +240,7 @@
 
   .markdown :global(blockquote) {
     border-left: 3px solid var(--border);
-    padding-left: 16px;
+    padding-left: 14px;
     color: var(--muted);
     margin-left: 0;
   }
@@ -294,55 +258,17 @@
   .markdown :global(th),
   .markdown :global(td) {
     border: 1px solid var(--border);
-    padding: 7px 12px;
-  }
-
-  .markdown :global(a) {
-    color: var(--accent);
+    padding: 6px 12px;
   }
 
   .markdown > :global(:first-child) {
     margin-top: 0;
   }
 
-  @media (min-width: 1500px) {
-    .editor-content {
-      padding-top: 40px;
-    }
-
-    textarea,
-    .preview {
-      min-height: 470px;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .editor-header {
-      padding: 22px;
-      flex-wrap: wrap;
-    }
-
-    .editor-content {
-      padding: 22px;
-    }
-
-    .handoff {
-      flex-wrap: wrap;
-    }
-
-    .editor-meta {
-      flex-wrap: wrap;
-    }
-  }
-
   @media (max-width: 520px) {
-    .editor-header {
-      min-height: auto;
-    }
-
+    .editor-header,
     .editor-footer {
-      gap: 10px;
-      font-size: 9px;
+      flex-wrap: wrap;
     }
   }
 </style>

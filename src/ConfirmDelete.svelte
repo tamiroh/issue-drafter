@@ -31,59 +31,58 @@
 >
   <h2 id="delete-title">Delete this draft?</h2>
   <p>
-    “{title || "Untitled draft"}” will be permanently removed from this browser.
+    “{title || "Untitled draft"}” will be removed from this browser. This can't
+    be undone.
   </p>
   <div>
-    <button disabled={busy} onclick={oncancel}>Keep draft</button><button
+    <button disabled={busy} onclick={oncancel}>Cancel</button><button
       class="danger"
       disabled={busy}
-      onclick={onconfirm}>{busy ? "Deleting…" : "Delete draft"}</button
+      onclick={onconfirm}>{busy ? "Deleting…" : "Delete"}</button
     >
   </div>
 </dialog>
 
 <style>
   .confirm-dialog {
-    background: var(--surface);
-    padding: 28px;
-    border-radius: 12px;
-    max-width: 440px;
-    box-shadow: 0 15px 60px #00000066;
+    background: var(--background);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    width: calc(100% - 40px);
+    max-width: 400px;
+  }
+
+  .confirm-dialog::backdrop {
+    background: #0009;
   }
 
   .confirm-dialog h2 {
-    font-size: 20px;
-    margin-top: 0;
+    font-size: 16px;
+    margin: 0 0 8px;
   }
 
   .confirm-dialog p {
     color: var(--muted);
+    margin: 0;
     overflow-wrap: anywhere;
   }
 
   .confirm-dialog > div {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 24px;
+    gap: 8px;
+    margin-top: 20px;
   }
 
   .danger {
-    background: #a52f45;
-    color: white;
-    border-color: #a52f45;
+    background: #b3382f;
+    color: #fff;
+    border-color: #b3382f;
   }
 
   .danger:hover {
-    background: #bd3d54;
-  }
-
-  .confirm-dialog {
-    border: 0;
-    width: calc(100% - 40px);
-  }
-
-  .confirm-dialog::backdrop {
-    background: #00000099;
+    background: #c8443a;
   }
 </style>

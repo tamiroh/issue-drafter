@@ -87,7 +87,7 @@
 </script>
 
 <section class="creation">
-  <h1>New Draft</h1>
+  <h1>New draft</h1>
   <form
     onsubmit={(event) => {
       event.preventDefault();
@@ -103,7 +103,7 @@
         oninput={reset}
         autocomplete="off"
         required
-      /><button class="primary" disabled={loading}
+      /><button class:primary={!loadedRepo} disabled={loading}
         >{loading ? "Loading…" : "Find templates"}</button
       >
     </div>
@@ -122,68 +122,53 @@
           {templates.find((item) => item.path === selected)?.about}
         </p>{/if}
       {#if message}<p class="notice" role="status">{message}</p>{/if}
-      <button class="primary" onclick={create}
-        >Create draft{loading ? " without a template" : ""}</button
-      >
     </div>
   {/if}
-  <button class="text-button" onclick={oncancel}>Cancel</button>
+  <div class="actions">
+    {#if loadedRepo}<button class="primary" onclick={create}
+        >Create draft{loading ? " without a template" : ""}</button
+      >{/if}<button onclick={oncancel}>Cancel</button>
+  </div>
 </section>
 
 <style>
-  .creation {
-    max-width: 720px;
-    margin: 90px auto;
-    padding: 32px;
-  }
-
   .creation h1 {
-    margin: 18px 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 20px;
   }
 
-  .creation form {
-    margin-top: 40px;
+  .creation > :global(*) {
+    max-width: 520px;
   }
 
   .repository-input {
     display: flex;
-    gap: 10px;
-  }
-
-  .repository-input button {
-    white-space: nowrap;
+    gap: 8px;
   }
 
   .template-picker {
-    margin-top: 26px;
+    margin-top: 16px;
   }
 
-  .template-picker > .primary {
-    margin-top: 18px;
+  .template-picker p {
+    font-size: 13px;
+    margin: 8px 0 0;
   }
 
-  .creation > .text-button {
-    margin-top: 18px;
+  .creation > .error {
+    margin: 8px 0 0;
   }
 
-  @media (max-width: 760px) {
-    .repository-input {
-      flex-direction: column;
-    }
-
-    .creation {
-      margin: 30px auto;
-      padding: 24px;
-    }
-
-    .creation h1 {
-      font-size: 27px;
-    }
+  .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
   }
 
   @media (max-width: 520px) {
-    .creation {
-      margin: 10px auto;
+    .repository-input {
+      flex-direction: column;
     }
   }
 </style>

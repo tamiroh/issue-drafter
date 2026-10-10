@@ -122,14 +122,12 @@
     <button
       class="new-draft"
       disabled={loading || loadFailed}
-      onclick={() => (creating = true)}
-      ><span aria-hidden="true">＋</span> New Draft</button
+      onclick={() => (creating = true)}>New draft</button
     >
-    <div class="sidebar-label">DRAFTS <span>{drafts.length}</span></div>
     <nav aria-label="Drafts">
       {#each repositories as repository (repository)}
         <div class="repository-group">
-          <h2><span aria-hidden="true">▱</span> {repository}</h2>
+          <h2>{repository}</h2>
           {#each drafts.filter((draft) => draft.repository === repository) as draft (draft.id)}
             <div
               class="draft-row"
@@ -145,8 +143,9 @@
                   creating = false;
                 }}
                 ><span>{draft.title || "Untitled draft"}</span><small
+                  class:error={statuses[draft.id] === "Save failed"}
                   >{statuses[draft.id] === "Save failed"
-                    ? "Not saved · Retry in editor"
+                    ? "Not saved"
                     : new Date(draft.updatedAt).toLocaleDateString(undefined, {
                         month: "short",
                         day: "numeric",
@@ -171,7 +170,7 @@
         {#if loadFailed}<button onclick={load}>Retry</button>{/if}
       </div>{/if}
     {#if loading}<div class="empty-state">
-        Loading your drafts…
+        Loading…
       </div>{:else if loadFailed}<div class="empty-state">
         Browser storage is required to safely save drafts.
       </div>{:else if creating}<NewDraft
@@ -183,10 +182,8 @@
           onchange={edit}
           onretry={() => current && save(current)}
         />{/key}{:else}<div class="empty-state">
-        <h1>No draft selected</h1>
-        <button class="primary" onclick={() => (creating = true)}
-          >New Draft</button
-        >
+        <p>No draft selected.</p>
+        <button onclick={() => (creating = true)}>New draft</button>
       </div>{/if}
   </main>
 </div>
@@ -203,31 +200,25 @@
   :global(:root) {
     color-scheme: dark;
 
-    --background: #101318;
-    --sidebar: #151920;
-    --surface: #1c222c;
-    --surface-hover: #283141;
-    --selected: #2a3354;
-    --border: #364153;
-    --text: #e6eaf2;
-    --muted: #a3aec0;
-    --accent: #a5b4fc;
-    --success: #8fd3a8;
-    --danger: #ff9aa9;
-    --notice-bg: #332c1e;
-    --notice-text: #ebca88;
+    --background: #181818;
+    --inset: #141414;
+    --surface: #262626;
+    --selected: #2e2e2e;
+    --border: #404040;
+    --text: #e2e2e2;
+    --muted: #999;
+    --link: #8cb4f0;
+    --danger: #f0776c;
 
     font-family:
-      Inter,
+      system-ui,
       -apple-system,
-      BlinkMacSystemFont,
       "Segoe UI",
       sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
     color: var(--text);
     background: var(--background);
-    font-synthesis: none;
-    font-weight: 400;
-    font-size: 14px;
   }
 
   :global(*) {
@@ -249,33 +240,30 @@
   :global(.button) {
     cursor: pointer;
     border: 1px solid var(--border);
-    border-radius: 7px;
-    background: var(--surface);
+    border-radius: 4px;
+    background: transparent;
     color: var(--text);
-    padding: 9px 13px;
-    font-weight: 550;
+    padding: 6px 12px;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    transition: background 0.15s;
+    white-space: nowrap;
   }
 
   :global(button:hover),
   :global(.button:hover) {
-    background: var(--surface-hover);
+    background: var(--surface);
   }
 
   :global(button:disabled) {
     opacity: 0.5;
-    cursor: wait;
+    cursor: default;
   }
 
-  :global(button:focus-visible),
-  :global(a:focus-visible) {
-    outline: 3px solid var(--accent);
-    outline-offset: 3px;
+  :global(:focus-visible) {
+    outline: 2px solid var(--link);
+    outline-offset: 1px;
   }
 
   :global(input),
@@ -283,18 +271,11 @@
   :global(select) {
     width: 100%;
     border: 1px solid var(--border);
-    border-radius: 7px;
-    background: var(--surface);
+    border-radius: 4px;
+    background: var(--inset);
     color: inherit;
-    padding: 12px;
-    outline: none;
-  }
-
-  :global(input:focus),
-  :global(textarea:focus),
-  :global(select:focus) {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px #a5b4fc26;
+    padding: 8px 10px;
+    outline-offset: -1px;
   }
 
   :global(input::placeholder),
@@ -304,99 +285,58 @@
   }
 
   :global(a) {
-    color: var(--accent);
+    color: var(--link);
   }
 
   :global(label) {
     display: block;
     font-size: 13px;
     font-weight: 600;
-    margin-bottom: 10px;
-  }
-
-  :global(h1) {
-    font-size: 32px;
-    letter-spacing: -1.1px;
-    line-height: 1.2;
-    font-weight: 650;
-  }
-
-  :global(p) {
-    line-height: 1.7;
+    margin-bottom: 6px;
   }
 
   .app-shell {
     display: grid;
-    grid-template-columns: 268px minmax(0, 1fr);
+    grid-template-columns: 260px minmax(0, 1fr);
     min-height: 100dvh;
   }
 
   .sidebar {
-    background: var(--sidebar);
+    background: var(--inset);
     border-right: 1px solid var(--border);
-    padding: 32px 18px 20px;
-    display: flex;
-    flex-direction: column;
+    padding: 16px 12px;
   }
 
   .brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: block;
     text-decoration: none;
     color: var(--text);
-    font-size: 20px;
-    letter-spacing: -0.6px;
-    font-weight: 700;
-    padding: 0 9px;
+    font-weight: 600;
+    padding: 0 8px;
   }
 
   .new-draft {
     width: 100%;
-    margin: 32px 0;
-    color: var(--accent);
-    border-color: var(--border);
-    box-shadow: 0 2px 3px #0000001a;
-  }
-
-  .new-draft span {
-    font-size: 20px;
-  }
-
-  .sidebar-label {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    color: var(--muted);
-    font-size: 10px;
-    letter-spacing: 1.4px;
-    font-weight: 650;
-  }
-
-  .sidebar-label span {
-    letter-spacing: 0;
-  }
-
-  .repository-group {
-    margin-top: 22px;
+    margin: 16px 0 8px;
   }
 
   .repository-group h2 {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 400;
     overflow-wrap: anywhere;
-    padding: 0 10px;
+    margin: 16px 0 4px;
+    padding: 0 8px;
     color: var(--muted);
-    display: flex;
-    gap: 7px;
-    line-height: 1.6;
   }
 
   .draft-row {
     display: flex;
-    border-radius: 7px;
-    margin-top: 5px;
     align-items: center;
+    border-radius: 4px;
+  }
+
+  .draft-row:hover {
+    background: var(--surface);
   }
 
   .draft-row.selected {
@@ -406,59 +346,63 @@
   .draft-select {
     flex: 1;
     min-width: 0;
-    background: transparent;
+    background: none;
     border: 0;
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 12px;
-    gap: 6px;
-    text-align: left;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 0 6px 8px;
     font-size: 13px;
   }
 
   .draft-select span {
-    max-width: 100%;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .draft-select small {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--muted);
-    font-weight: 400;
-  }
-
-  .selected .draft-select {
-    color: var(--accent);
   }
 
   .delete-draft {
     background: none;
     border: 0;
-    padding: 6px 10px;
-    font-size: 20px;
+    padding: 4px 8px;
+    font-size: 16px;
+    line-height: 1;
     color: var(--muted);
+  }
+
+  .delete-draft:hover {
+    color: var(--text);
   }
 
   .empty-list {
     color: var(--muted);
-    font-size: 12px;
-    padding: 12px 10px;
+    font-size: 13px;
+    margin: 16px 0 0;
+    padding: 0 8px;
   }
 
   main {
     min-width: 0;
+    padding: 24px 32px;
+  }
+
+  main > :global(*) {
+    max-width: 820px;
   }
 
   :global(.primary) {
-    background: #5263ba;
-    color: #fff;
-    border-color: #5263ba;
+    background: var(--text);
+    color: var(--background);
+    border-color: var(--text);
   }
 
   :global(.primary:hover) {
-    background: #6172cc;
+    background: #fff;
   }
 
   :global(.muted) {
@@ -468,52 +412,50 @@
   :global(.text-button) {
     background: none;
     border: 0;
-    color: var(--accent);
-    padding: 10px 0;
-    font-size: 12px;
+    color: inherit;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  :global(.text-button:hover) {
+    background: none;
   }
 
   :global(.error) {
-    color: var(--danger) !important;
+    color: var(--danger);
   }
 
   :global(.notice),
   :global(.global-error) {
-    background: var(--notice-bg);
-    color: var(--notice-text);
-    border-radius: 6px;
-    padding: 12px 15px;
-    font-size: 12px;
-    line-height: 1.6;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
   }
 
   .global-error {
-    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
   }
 
   .empty-state {
-    text-align: center;
-    padding: 100px 25px;
     color: var(--muted);
   }
 
-  @media (min-width: 1500px) {
-    .app-shell {
-      grid-template-columns: 300px minmax(0, 1fr);
-    }
+  .empty-state p {
+    margin: 0 0 12px;
   }
 
   @media (max-width: 760px) {
     .app-shell {
-      grid-template-columns: 210px minmax(0, 1fr);
+      grid-template-columns: 200px minmax(0, 1fr);
     }
 
-    .sidebar {
-      padding: 24px 10px;
-    }
-
-    .brand {
-      font-size: 16px;
+    main {
+      padding: 16px;
     }
   }
 
@@ -525,28 +467,11 @@
     .sidebar {
       border-right: 0;
       border-bottom: 1px solid var(--border);
-      padding: 18px;
-    }
-
-    .brand {
-      font-size: 20px;
-    }
-
-    .new-draft {
-      margin: 16px 0;
     }
 
     .sidebar nav {
       max-height: 190px;
       overflow: auto;
-    }
-
-    .repository-group {
-      margin-top: 10px;
-    }
-
-    .empty-list {
-      margin: 5px 0;
     }
   }
 </style>
