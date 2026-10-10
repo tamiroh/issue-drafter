@@ -87,11 +87,7 @@
 </script>
 
 <section class="creation">
-  <div class="eyebrow">A PLACE TO THINK BEFORE YOU POST</div>
-  <h1>Start a new draft.</h1>
-  <p class="muted">
-    Pick a public repository. Shape your idea. Post when you're ready.
-  </p>
+  <h1>New Draft</h1>
   <form
     onsubmit={(event) => {
       event.preventDefault();
@@ -117,7 +113,7 @@
     <div class="template-picker">
       <label for="template">Issue template</label>
       <select id="template" bind:value={selected} disabled={loading}>
-        <option value="">No template — start with a blank draft</option>
+        <option value="">No template</option>
         {#each templates as template (template.path)}<option
             value={template.path}>{template.name}</option
           >{/each}
@@ -132,9 +128,6 @@
     </div>
   {/if}
   <button class="text-button" onclick={oncancel}>Cancel</button>
-  <div class="local-note">
-    <span aria-hidden="true">◉</span> Stored in this browser. No account required.
-  </div>
 </section>
 
 <style>
@@ -173,19 +166,6 @@
     margin-top: 18px;
   }
 
-  .local-note {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 60px;
-    border-top: 1px solid var(--border);
-    padding-top: 20px;
-  }
-
-  .local-note span {
-    color: var(--success);
-    margin-right: 5px;
-  }
-
   @media (max-width: 760px) {
     .repository-input {
       flex-direction: column;
@@ -204,10 +184,6 @@
   @media (max-width: 520px) {
     .creation {
       margin: 10px auto;
-    }
-
-    .local-note {
-      margin-top: 30px;
     }
   }
 </style>

@@ -33,10 +33,7 @@
 </script>
 
 <header class="editor-header">
-  <div>
-    <div class="eyebrow">ISSUE DRAFT</div>
-    <div class="repo-title">{draft.repository}</div>
-  </div>
+  <div class="repo-title">{draft.repository}</div>
   <a class="button primary" href={url} target="_blank" rel="noopener noreferrer"
     >Open on GitHub <span aria-hidden="true">↗</span></a
   >
@@ -45,9 +42,7 @@
   <div class="editor-meta">
     <span>Template <strong>{draft.template ?? "No template"}</strong></span
     ><span class:error={status === "Save failed"} role="status"
-      >{status === "Saved"
-        ? "● Saved locally"
-        : status}{#if status === "Save failed"}
+      >{status === "Saved" ? "Saved" : status}{#if status === "Save failed"}
         <button class="text-button" onclick={onretry}>Retry</button>{/if}</span
     >
   </div>
@@ -59,7 +54,6 @@
   <input
     id="issue-title"
     class="title-input"
-    placeholder="Give your issue a clear title"
     value={draft.title}
     oninput={(event) => onchange("title", event.currentTarget.value)}
   />
@@ -80,25 +74,18 @@
   {#if preview}<div class="markdown preview" aria-label="Markdown preview">
       {#if draft.body}<!-- HTML is sanitized with DOMPurify in renderMarkdown. -->
         <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-        {@html html}{:else}<p class="muted">
-          Your Markdown preview will appear here.
-        </p>{/if}
+        {@html html}{:else}<p class="muted">Nothing to preview.</p>{/if}
     </div>{:else}<textarea
       id="issue-body"
-      placeholder="Describe the problem, share some context, or propose an idea…"
       value={draft.body}
       oninput={(event) => onchange("body", event.currentTarget.value)}
     ></textarea>{/if}
   <div class="editor-footer">
-    <span>Markdown supported · Saved automatically</span><span
+    <span>Markdown</span><span
       >{draft.body.length.toLocaleString()} characters</span
     >
   </div>
   <div class="handoff">
-    <div>
-      <strong>Ready when you are.</strong>
-      <p>Review and submit on GitHub. Your draft stays here.</p>
-    </div>
     <div class="copy-actions">
       <button onclick={() => copy("title")}>Copy title</button><button
         onclick={() => copy("body")}>Copy body</button
@@ -129,7 +116,6 @@
 
   .repo-title {
     font-size: 17px;
-    margin-top: 8px;
     font-weight: 600;
     overflow-wrap: anywhere;
   }
@@ -237,23 +223,12 @@
 
   .handoff {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     gap: 18px;
     margin-top: 35px;
     padding-top: 23px;
     border-top: 1px solid var(--border);
-  }
-
-  .handoff strong {
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .handoff p {
-    font-size: 11px;
-    color: var(--muted);
-    margin: 5px 0;
   }
 
   .copy-actions {

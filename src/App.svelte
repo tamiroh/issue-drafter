@@ -118,18 +118,14 @@
 <svelte:window onbeforeunload={beforeUnload} />
 <div class="app-shell">
   <aside class="sidebar">
-    <a class="brand" href="./"
-      ><span class="brand-icon" aria-hidden="true">▤</span> issue-drafter<span
-        class="brand-dot">.</span
-      ></a
-    >
+    <a class="brand" href="./">Issue Drafter</a>
     <button
       class="new-draft"
       disabled={loading || loadFailed}
       onclick={() => (creating = true)}
       ><span aria-hidden="true">＋</span> New Draft</button
     >
-    <div class="sidebar-label">YOUR DRAFTS <span>{drafts.length}</span></div>
+    <div class="sidebar-label">DRAFTS <span>{drafts.length}</span></div>
     <nav aria-label="Drafts">
       {#each repositories as repository (repository)}
         <div class="repository-group">
@@ -166,15 +162,8 @@
           {/each}
         </div>
       {/each}
-      {#if !drafts.length}<p class="empty-list">
-          A little space for your next big idea.<br />Your drafts will live
-          here.
-        </p>{/if}
+      {#if !drafts.length}<p class="empty-list">No drafts yet.</p>{/if}
     </nav>
-    <div class="sidebar-bottom">
-      <span class="local-dot"></span> Local to this browser
-      <p>Drafts stay on this device.</p>
-    </div>
   </aside>
   <main>
     {#if error}<div class="global-error" role="alert">
@@ -194,8 +183,7 @@
           onchange={edit}
           onretry={() => current && save(current)}
         />{/key}{:else}<div class="empty-state">
-        <h1>Your next issue starts here.</h1>
-        <p>Create a draft to start writing.</p>
+        <h1>No draft selected</h1>
         <button class="primary" onclick={() => (creating = true)}
           >New Draft</button
         >
@@ -363,16 +351,6 @@
     padding: 0 9px;
   }
 
-  .brand-icon {
-    font-size: 28px;
-    color: var(--accent);
-  }
-
-  .brand-dot {
-    color: var(--accent);
-    margin-left: -7px;
-  }
-
   .new-draft {
     width: 100%;
     margin: 32px 0;
@@ -469,37 +447,8 @@
     padding: 12px 10px;
   }
 
-  .sidebar-bottom {
-    margin-top: auto;
-    padding: 50px 10px 0;
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .sidebar-bottom p {
-    margin: 5px 0 0 13px;
-    font-size: 10px;
-    color: var(--muted);
-  }
-
-  .local-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--success);
-    margin-right: 5px;
-  }
-
   main {
     min-width: 0;
-  }
-
-  :global(.eyebrow) {
-    font-size: 10px;
-    font-weight: 650;
-    letter-spacing: 1.6px;
-    color: var(--muted);
   }
 
   :global(.primary) {
@@ -590,10 +539,6 @@
     .sidebar nav {
       max-height: 190px;
       overflow: auto;
-    }
-
-    .sidebar-bottom {
-      display: none;
     }
 
     .repository-group {
