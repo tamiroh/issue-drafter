@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import NewDraft from './components/NewDraft.svelte';
-  import ConfirmDelete from './components/ConfirmDelete.svelte';
-  import Editor from './components/Editor.svelte';
-  import { draftStorage, DraftWriter, type IssueDraft } from './lib/drafts';
+  import NewDraft from './NewDraft.svelte';
+  import ConfirmDelete from './ConfirmDelete.svelte';
+  import Editor from './Editor.svelte';
+  import { draftStorage, DraftWriter, type IssueDraft } from './drafts';
   let drafts = $state<IssueDraft[]>([]);
   let selected = $state('');
   let creating = $state(false);

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { IssueDraft } from '../lib/drafts';
-  import { githubIssueUrl } from '../lib/github';
-  import { renderMarkdown } from '../lib/markdown';
+  import type { IssueDraft } from './drafts';
+  import { githubIssueUrl } from './github';
+  import { renderMarkdown } from './markdown';
   let {
     draft,
     status,

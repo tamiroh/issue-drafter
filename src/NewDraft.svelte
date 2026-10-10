@@ -3,8 +3,8 @@
     fetchTemplates,
     normalizeRepository,
     type IssueTemplate,
-  } from '../lib/github';
-  import type { IssueDraft } from '../lib/drafts';
+  } from './github';
+  import type { IssueDraft } from './drafts';
   import { onDestroy } from 'svelte';
   let {
     oncreate,
